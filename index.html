@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffe6eb;
+    font-family: Arial, sans-serif;
+}
+
+/* Falling Roses & Hearts */
+.fall {
+    position: absolute;
+    top: -30px;
+    animation: fall linear infinite;
+    pointer-events: none;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.box {
+    text-align: center;
+    z-index: 5;
+    max-width: 90%;
+}
+
+h1 {
+    color: #e6005c;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    margin: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#yes {
+    background-color: #ff4d79;
+    color: white;
+}
+
+#no {
+    background-color: #999;
+    color: white;
+    position: absolute;
+}
+
+#result {
+    display: none;
+}
+
+#typedText {
+    font-size: 22px;
+    color: #e6005c;
+    line-height: 1.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h1 id="question">Will you be my Valentine? ❤️</h1>
+
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+
+    <div id="result">
+        <div id="typedText"></div>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const result = document.getElementById("result");
+const question = document.getElementById("question");
+const typedText = document.getElementById("typedText");
+
+const message =
+`Ishu ❤️ You are my Valentine!
+I Love you Ishu ❤️
+Forever & Always 💕`;
+
+let index = 0;
+
+/* No button runs away */
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+/* YES click */
+yesBtn.addEventListener("click", () => {
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    question.style.display = "none";
+    result.style.display = "block";
+
+    typeEffect();
+    startFalling();
+});
+
+/* Typing Effect */
+function typeEffect() {
+    if (index < message.length) {
+        typedText.innerHTML += message.charAt(index) === "\n" ? "<br>" : message.charAt(index);
+        index++;
+        setTimeout(typeEffect, 80);
+    }
+}
+
+/* Roses + Hearts */
+function startFalling() {
+    setInterval(() => {
+        const item = document.createElement("div");
+        item.classList.add("fall");
+
+        const isRose = Math.random() > 0.5;
+        item.innerHTML = isRose ? "🌹" : "❤️";
+
+        item.style.left = Math.random() * 100 + "vw";
+        item.style.fontSize = Math.random() * 18 + 18 + "px";
+        item.style.animationDuration = Math.random() * 3 + 5 + "s";
+
+        document.body.appendChild(item);
+
+        setTimeout(() => item.remove(), 8000);
+    }, 250);
+}
+</script>
+
+</body>
+</html>
